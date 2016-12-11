@@ -48,7 +48,7 @@ $(function() {
     // options for map
     // https://developers.google.com/maps/documentation/javascript/reference#MapOptions
     var options = {
-        center: {lat: 37.4236, lng: -122.1619}, // Stanford, California
+        center: {lat: 42.3770, lng: -71.1256}, // Stanford, California CHanged to Cambridge
         disableDefaultUI: true,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         maxZoom: 14,
@@ -75,6 +75,48 @@ $(function() {
 function addMarker(place)
 {
     // TODO
+    var Latlng = new google.maps.LatLng(place.latitude, place.longitude);
+    // var image = "http://www.freeiconspng.com/uploads/news-icon-19.png";
+    var marker = new MarkerWithLabel({
+        labelContent: place.place_name + ", " + place.admin_name1,
+        position: Latlng,
+        map: map,
+        // icon: image,
+        title: 'Hello World!'
+    });
+    
+
+    var content = '<ul>\n';
+    var query = place.place_name;
+    var parameters = {
+        geo: query
+    };
+    $.getJSON("articles.php", parameters)
+    .done(function(data, textStatus, jqXHR) {
+
+        if (data.length==0)
+            content += "No News";
+        else {
+            for (var i = 0; i < data.length; i++)
+            {   
+                content += "<li>";
+                content = content + "<a href=" + data[i].link + ">";
+                content += data[i].title;
+                content += "</a>";
+                content += "</li>";
+            }
+        }
+        content += '</ul>';
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        console.log(errorThrown.toString());
+    });
+    
+    google.maps.event.addListener(marker, 'click', function() {
+    	showInfo(marker, content);
+    });
+    
+    marker.setMap(map);
 }
 
 /**
@@ -108,7 +150,7 @@ function configure()
         source: search,
         templates: {
             empty: "no places found yet",
-            suggestion: _.template("<p>TODO</p>")
+            suggestion: _.template("<p><%- place_name %>, <%- admin_name1 %>, <font color='grey'><%- postal_code %></font></p>")
         }
     });
 
@@ -160,6 +202,10 @@ function hideInfo()
 function removeMarkers()
 {
     // TODO
+    var marker;
+    for (marker in markers) {
+        marker.setMap(null);
+    }
 }
 
 /**
