@@ -116,6 +116,7 @@ function addMarker(place)
     	showInfo(marker, content);
     });
     
+    markers.push(marker);
     marker.setMap(map);
 }
 
@@ -202,10 +203,10 @@ function hideInfo()
 function removeMarkers()
 {
     // TODO
-    var marker;
-    for (marker in markers) {
-        marker.setMap(null);
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
     }
+    markers.length = 0;
 }
 
 /**
