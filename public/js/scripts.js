@@ -84,10 +84,10 @@ function addMarker(place)
         position: Latlng,
         map: map,
         icon: image,
+        animation: google.maps.Animation.DROP,
         title: 'Hello World!'
     });
     
-
     var content = '<ul>\n';
     var query = place.place_name;
     var parameters = {
@@ -95,7 +95,7 @@ function addMarker(place)
     };
     $.getJSON("articles.php", parameters)
     .done(function(data, textStatus, jqXHR) {
-
+        
         if (data.length==0)
             content += "No News";
         else {
@@ -113,6 +113,7 @@ function addMarker(place)
     .fail(function(jqXHR, textStatus, errorThrown) {
         console.log(errorThrown.toString());
     });
+    
     
     google.maps.event.addListener(marker, 'click', function() {
     	showInfo(marker, content);
