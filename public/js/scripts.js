@@ -76,12 +76,14 @@ function addMarker(place)
 {
     // TODO
     var Latlng = new google.maps.LatLng(place.latitude, place.longitude);
-    // var image = "http://www.freeiconspng.com/uploads/news-icon-19.png";
+    var image = { 
+        url : "../news-icon.png",
+    };
     var marker = new MarkerWithLabel({
         labelContent: place.place_name + ", " + place.admin_name1,
         position: Latlng,
         map: map,
-        // icon: image,
+        icon: image,
         title: 'Hello World!'
     });
     
