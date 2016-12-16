@@ -102,7 +102,7 @@ function addMarker(place)
             for (var i = 0; i < data.length; i++)
             {   
                 content += "<li>";
-                content = content + "<a href=" + data[i].link + ">";
+                content = content + "<a href=" + data[i].link + " target='_blank' >";
                 content += data[i].title;
                 content += "</a>";
                 content += "</li>";
